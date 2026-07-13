@@ -1,12 +1,16 @@
 import asyncio
-import os
-import logging
 import time
 from aiohttp import web
 from pyrogram import idle
-from bot import Bot
 
-# Uptime calculation
+# Import Bot class carefully
+try:
+    from bot import Bot
+    print("✅ Bot class imported successfully")
+except Exception as e:
+    print(f"❌ Import Error: {e}")
+    exit(1)
+
 START_TIME = time.time()
 
 def get_uptime():
@@ -19,17 +23,7 @@ def get_uptime():
 async def web_server():
     async def handle(request):
         uptime = get_uptime()
-        html = f"""
-        <!DOCTYPE html>
-        <html>
-        <head><title>Auto Forward Bot</title></head>
-        <body style="text-align:center; padding:40px; font-family:Arial;">
-            <h1>Bot is Running Successfully</h1>
-            <p>Uptime: {uptime}</p>
-            <p>Status: Active</p>
-        </body>
-        </html>
-        """
+        html = f"<h1>✅ Auto Forward Bot Running</h1><p>Uptime: {uptime}</p>"
         return web.Response(text=html, content_type="text/html")
     
     app = web.Application()
@@ -38,17 +32,14 @@ async def web_server():
     await runner.setup()
     site = web.TCPSite(runner, '0.0.0.0', 10000)
     await site.start()
-    print("Web Server Started on port 10000")
+    print("🌐 Web Server Started on port 10000")
 
 async def main():
-    try:
-        bot = Bot()
-        await bot.start()
-        print("Bot Started Successfully!")
-        await web_server()
-        await idle()
-    except Exception as e:
-        print(f"Error: {e}")
+    bot = Bot()
+    await bot.start()
+    print("🤖 Bot Started Successfully!")
+    await web_server()
+    await idle()
 
 if __name__ == "__main__":
     asyncio.run(main())
