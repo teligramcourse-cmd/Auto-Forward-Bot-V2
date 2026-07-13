@@ -1,3 +1,7 @@
+pyrogram
+tgcrypto
+python-dotenv
+aiohttp
 pyrofork
 motor
 TgCrypto
