@@ -26,93 +26,31 @@ async def web_server():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Bot Status</title>
-            <style>
-                body {{
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    background-color: #f0f2f5;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    margin: 0;
-                }}
-                .container {{
-                    background-color: white;
-                    padding: 40px;
-                    border-radius: 12px;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                    max-width: 400px;
-                    width: 100%;
-                }}
-                h1 {{
-                    color: #1a73e8;
-                    margin-bottom: 20px;
-                }}
-                p {{
-                    color: #555;
-                    font-size: 18px;
-                    margin: 10px 0;
-                }}
-                .status-active {{
-                    color: #28a745;
-                    font-weight: bold;
-                }}
-                .footer {{
-                    margin-top: 30px;
-                    font-size: 14px;
-                    color: #888;
-                }}
-            </style>
+            <title>Auto Forward Bot</title>
         </head>
         <body>
-            <div class="container">
-                <h1>Bot is Running</h1>
-                <p>Status: <span class="status-active">Active</span></p>
-                <p>Uptime: {uptime}</p>
-                <div class="footer">
-                    Powered by Auto Forward Bot V2
-                </div>
-            </div>
+            <h1>✅ Bot is Running</h1>
+            <p>Uptime: {uptime}</p>
+            <p>Status: Alive</p>
         </body>
         </html>
         """
         return web.Response(text=html_content, content_type='text/html')
-
+    
     app = web.Application()
-    app.add_routes([web.get('/', handle)])
+    app.router.add_get('/', handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    port = int(os.environ.get('PORT', 8080))
-    site = web.TCPSite(runner, '0.0.0.0', port)
+    site = web.TCPSite(runner, '0.0.0.0', 8080)   # Render के लिए 8080 port
     await site.start()
-    logging.info(f"Web server started on port {port}")
-
-async def ping_server():
-    while True:
-        await asyncio.sleep(300) # Ping every 5 minutes
-        try:
-            port = int(os.environ.get('PORT', 8080))
-            url = f'http://127.0.0.1:{port}'
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    logging.info(f"Self-ping to {url}: Status {resp.status}")
-        except Exception as e:
-            logging.error(f"Self-ping failed: {e}")
+    print("🌐 Web Server Started on port 8080")
 
 async def main():
     bot = Bot()
     await bot.start()
-
-    # Start web server
-    await web_server()
-
-    # Start self-ping task
-    asyncio.create_task(ping_server())
-
-    await idle()
-    await bot.stop()
+    print("🤖 Bot Started Successfully!")
+    await web_server()   # web server start
+    await idle()         # bot को alive रखने के लिए
 
 if __name__ == "__main__":
     asyncio.run(main())
