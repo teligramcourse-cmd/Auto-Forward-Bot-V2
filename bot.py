@@ -2,7 +2,9 @@ import asyncio
 import logging 
 import logging.config
 from database import db 
-from config import Config  
+from config import Config
+# from database import db
+# from config import Config   
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer 
 from pyrogram.enums import ParseMode
