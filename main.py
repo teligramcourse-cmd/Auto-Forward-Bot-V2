@@ -41,9 +41,9 @@ async def web_server():
     app.router.add_get('/', handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', 8080)   # Render के लिए 8080 port
+    site = web.TCPSite(runner, '0.0.0.0', 10000)   # Render के लिए 10000 port
     await site.start()
-    print("🌐 Web Server Started on port 8080")
+    print("🌐 Web Server Started on port 10000")
 
 async def main():
     bot = Bot()
