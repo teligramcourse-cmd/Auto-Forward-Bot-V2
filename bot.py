@@ -15,9 +15,9 @@ class Bot(Client):
     def __init__(self):
         super().__init__(
             "AutoForwardBot",  # Session name
-            api_id=int(os.getenv("API_ID")),
-            api_hash=os.getenv("API_HASH"),
-            bot_token=os.getenv("BOT_TOKEN"),
+            api_id=int(os.getenv("36739180")),
+            api_hash=os.getenv("a4974292591c16f7d28ad09c16501f9c"),
+            bot_token=os.getenv("8697819852:AAH9xXxO-yFDve6hIWwPhV1_paGG8EsL0p0"),
             plugins={"root": "plugins"},
             workers=50,
             parse_mode=ParseMode.DEFAULT,
